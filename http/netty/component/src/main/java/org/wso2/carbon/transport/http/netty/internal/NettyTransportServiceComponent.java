@@ -55,10 +55,18 @@ public class NettyTransportServiceComponent {
     protected void addNettyChannelInitializer(CarbonNettyServerInitializer initializer, Map<String, ?> properties) {
         try {
             String channelId = (String) properties.get(CHANNEL_ID_KEY);
+            String channelIdHttp = (String) properties.get("channel.id.http");
             if (channelId != null) {
                 dataHolder.addNettyChannelInitializer(channelId, initializer);
             } else {
                 throw new IllegalArgumentException(CHANNEL_ID_KEY + " not specified for ChannelInitializer " +
+                        initializer);
+            }
+
+            if (channelIdHttp != null) {
+                dataHolder.addNettyChannelInitializer(channelIdHttp, initializer);
+            } else {
+                throw new IllegalArgumentException("channel.id.http" + " not specified for ChannelInitializer " +
                         initializer);
             }
         } catch (Throwable e) {
